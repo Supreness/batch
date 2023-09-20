@@ -1,4 +1,4 @@
-package gobatch
+package batch
 
 //JobListener job listener
 type JobListener interface {

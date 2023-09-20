@@ -1,4 +1,4 @@
-package gobatch
+package batch
 
 // Task is a function type for doing work in a simple step
 type Task func(execution *StepExecution) BatchError

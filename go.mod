@@ -1,4 +1,4 @@
-module github.com/suprenee/batch
+module github.com/supreness/batch
 
 go 1.18
 

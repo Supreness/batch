@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="56c47c78-913f-4e87-ad27-cc31e05f84e4" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/context.go" beforeDir="false" afterPath="$PROJECT_DIR$/context.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/context_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/context_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/errors.go" beforeDir="false" afterPath="$PROJECT_DIR$/errors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/errors_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/errors_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/execution.go" beforeDir="false" afterPath="$PROJECT_DIR$/execution.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_copy.go" beforeDir="false" afterPath="$PROJECT_DIR$/file_copy.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_path.go" beforeDir="false" afterPath="$PROJECT_DIR$/file_path.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/file_reader.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_writer.go" beforeDir="false" afterPath="$PROJECT_DIR$/file_writer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/global.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/item_reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/item_reader.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job.go" beforeDir="false" afterPath="$PROJECT_DIR$/job.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_builder.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_builder.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_operator.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_operator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/listener.go" beforeDir="false" afterPath="$PROJECT_DIR$/listener.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/schema_mysql.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/step.go" beforeDir="false" afterPath="$PROJECT_DIR$/step.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/step_builder.go" beforeDir="false" afterPath="$PROJECT_DIR$/step_builder.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/step_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/step_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taskpool.go" beforeDir="false" afterPath="$PROJECT_DIR$/taskpool.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taskpool_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/taskpool_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transaction.go" beforeDir="false" afterPath="$PROJECT_DIR$/transaction.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" url="file:///usr/local/Cellar/go@1.18/1.18.10/libexec" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2VexjA0XdriauN7K3DWV7Jd2um7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "/Users/bytedance",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>
