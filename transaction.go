@@ -42,7 +42,7 @@ func (tm *DefaultTxManager) Commit(tx interface{}) BatchError {
 	return nil
 }
 
-// Rollback rollback a transaction
+// Rollback rollback the transaction
 func (tm *DefaultTxManager) Rollback(tx interface{}) BatchError {
 	tx1 := tx.(*sql.Tx)
 	err := tx1.Rollback()
