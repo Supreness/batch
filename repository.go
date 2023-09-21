@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"context"
 	"database/sql"
-	"github.com/chararch/gobatch/status"
-	"github.com/chararch/gobatch/util"
+	"github.com/supreness/batch/status"
+	"github.com/supreness/batch/util"
 	"time"
 )
 

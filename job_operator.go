@@ -3,15 +3,15 @@ package batch
 import (
 	"context"
 	"fmt"
-	"github.com/chararch/gobatch/status"
-	"github.com/chararch/gobatch/util"
 	"github.com/pkg/errors"
+	"github.com/supreness/batch/status"
+	"github.com/supreness/batch/util"
 	"time"
 )
 
 var jobRegistry = make(map[string]Job)
 
-// Register register job to gobatch
+// Register register job to batch
 func Register(job Job) error {
 	if _, ok := jobRegistry[job.Name()]; ok {
 		return fmt.Errorf("job with name:%v has already been registered", job.Name())
@@ -20,7 +20,7 @@ func Register(job Job) error {
 	return nil
 }
 
-// Unregister unregister job to gobatch
+// Unregister unregister job to batch
 func Unregister(job Job) {
 	delete(jobRegistry, job.Name())
 }

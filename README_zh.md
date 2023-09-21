@@ -1,7 +1,7 @@
 # GoBatch
 
-[![GoDoc Reference](https://godoc.org/github.com/chararch/gobatch?status.svg)](http://godoc.org/github.com/chararch/gobatch)
-[![Go Report Card](https://goreportcard.com/badge/github.com/chararch/gobatch)](https://goreportcard.com/report/github.com/chararch/gobatch)
+[![GoDoc Reference](https://godoc.org/github.com/supreness/batch?status.svg)](http://godoc.org/github.com/supreness/batch)
+[![Go Report Card](https://goreportcard.com/badge/github.com/supreness/batch)](https://goreportcard.com/report/github.com/supreness/batch)
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
 中文|[English](README.md)
@@ -12,14 +12,14 @@ GoBatch是一款Go语言下的批处理框架，类似于Java语言的Spring Bat
 
 在GoBatch里面，任务（Job）被划分为多个按先后顺序依次执行的步骤（Step）。在执行任务时，框架会将任务和各个步骤的运行时相关数据记录到数据库中。
 
-![](https://gitee.com/chararch/images/raw/main/gobatch/gobatch.png)
+![](https://gitee.com/chararch/images/raw/main/batch/batch.png)
 
 **步骤**包括3种类型：
 - **简单步骤**：接受一个Handler对象，并在单线程中执行Handler包含的业务逻辑。Handler是接口类型，由用户自行实现。
 - **分块步骤**：用于处理大批量步骤，将全部数据分成若干小块依次进行处理，分块大小由用户指定。每个分块的处理流程是先使用Reader读取一个分块大小数量的数据，接着通过Processor逐条处理读取的数据，最后将结果通过Writer写入存储。这个流程会一直重复执行，直到所有数据读取完毕（Reader.Read()返回nil）。其中Reader、Processor、Writer是接口类型，由用户实现。
 - **分区步骤**：用于将一个大任务分成多个子任务，每个子任务可以由独立的线程来执行。在运行时，分区步骤被分为多个并行执行的子步骤，所有子步骤执行完毕，将结果进行合并。分区步骤的业务逻辑可以通过Handler来实现，也可以通过Reader/Processor/Writer来实现，此外，必须通过Partitioner指定分区逻辑，如果需要合并结果，则还要指定Aggregator。**分区步骤与分块步骤的区别是：前者是多线程执行，后者是单线程执行**。
 
-![](https://gitee.com/chararch/images/raw/main/gobatch/step.png)
+![](https://gitee.com/chararch/images/raw/main/batch/step.png)
 
 ## 功能
 
@@ -33,14 +33,14 @@ GoBatch是一款Go语言下的批处理框架，类似于Java语言的Spring Bat
 ## 安装
 
 ```shell
-go get -u github.com/chararch/gobatch
+go get -u github.com/supreness/batch
 ```
 
 ## 使用步骤
 
-1. 创建或使用已有的数据库，库名如: gobatch
-1. 在前述数据库中，使用文件[sql/schema_mysql.sql](https://github.com/chararch/gobatch/blob/master/sql/schema_mysql.sql) 的内容创建表。
-1. 使用gobatch框架编写批处理代码并运行。
+1. 创建或使用已有的数据库，库名如: batch
+1. 在前述数据库中，使用文件[sql/schema_mysql.sql](https://github.com/supreness/batch/blob/master/sql/schema_mysql.sql) 的内容创建表。
+1. 使用batch框架编写批处理代码并运行。
 
 ## 代码
 
@@ -48,7 +48,7 @@ go get -u github.com/chararch/gobatch
 
 ```go
 import (
-	"chararch/gobatch"
+	"chararch/batch"
 	"context"
 	"database/sql"
 	"fmt"
@@ -62,7 +62,7 @@ func mytask() {
 //reader
 type myReader struct {
 }
-func (r *myReader) Read(chunkCtx *gobatch.ChunkContext) (interface{}, gobatch.BatchError) {
+func (r *myReader) Read(chunkCtx *batch.ChunkContext) (interface{}, batch.BatchError) {
 	curr, _ := chunkCtx.StepExecution.StepContext.GetInt("read.num", 0)
 	if curr < 100 {
 		chunkCtx.StepExecution.StepContext.Put("read.num", curr+1)
@@ -74,43 +74,43 @@ func (r *myReader) Read(chunkCtx *gobatch.ChunkContext) (interface{}, gobatch.Ba
 //processor
 type myProcessor struct {
 }
-func (r *myProcessor) Process(item interface{}, chunkCtx *gobatch.ChunkContext) (interface{}, gobatch.BatchError) {
+func (r *myProcessor) Process(item interface{}, chunkCtx *batch.ChunkContext) (interface{}, batch.BatchError) {
 	return fmt.Sprintf("processed-%v", item), nil
 }
 
 //writer
 type myWriter struct {
 }
-func (r *myWriter) Write(items []interface{}, chunkCtx *gobatch.ChunkContext) gobatch.BatchError {
+func (r *myWriter) Write(items []interface{}, chunkCtx *batch.ChunkContext) batch.BatchError {
 	fmt.Printf("write: %v\n", items)
 	return nil
 }
 
 func main()  {
-	//set db for gobatch to store job&step execution context
-	db, err := sql.Open("mysql", "gobatch:gobatch123@tcp(127.0.0.1:3306)/gobatch?charset=utf8&parseTime=true")
+	//set db for batch to store job&step execution context
+	db, err := sql.Open("mysql", "batch:batch123@tcp(127.0.0.1:3306)/batch?charset=utf8&parseTime=true")
 	if err != nil {
 		panic(err)
 	}
-	gobatch.SetDB(db)
+	batch.SetDB(db)
 
 	//build steps
-	step1 := gobatch.NewStep("mytask").Handler(mytask).Build()
-	//step2 := gobatch.NewStep("my_step").Handler(&myReader{}, &myProcessor{}, &myWriter{}).Build()
-	step2 := gobatch.NewStep("my_step").Reader(&myReader{}).Processor(&myProcessor{}).Writer(&myWriter{}).ChunkSize(10).Build()
+	step1 := batch.NewStep("mytask").Handler(mytask).Build()
+	//step2 := batch.NewStep("my_step").Handler(&myReader{}, &myProcessor{}, &myWriter{}).Build()
+	step2 := batch.NewStep("my_step").Reader(&myReader{}).Processor(&myProcessor{}).Writer(&myWriter{}).ChunkSize(10).Build()
 
 	//build job
-	job := gobatch.NewJob("my_job").Step(step1, step2).Build()
+	job := batch.NewJob("my_job").Step(step1, step2).Build()
 
-	//register job to gobatch
-	gobatch.Register(job)
+	//register job to batch
+	batch.Register(job)
 
 	//run
-	//gobatch.StartAsync(context.Background(), job.Name(), "")
-	gobatch.Start(context.Background(), job.Name(), "")
+	//batch.StartAsync(context.Background(), job.Name(), "")
+	batch.Start(context.Background(), job.Name(), "")
 }
 ```
-该示例代码位于 [test/example.go](https://github.com/chararch/gobatch/blob/master/test/example.go)
+该示例代码位于 [test/example.go](https://github.com/supreness/batch/blob/master/test/example.go)
 
 ### 编写简单步骤
 
@@ -129,11 +129,11 @@ type Handler interface {
 ```
 当你使用以上函数定义或接口定义编写好了业务逻辑，则可以通过以下方式构造Step对象:
 ```go
-step1 := gobatch.NewStep("step1").Handler(myfunction).Build()
-step2 := gobatch.NewStep("step2").Handler(myHandler).Build()
+step1 := batch.NewStep("step1").Handler(myfunction).Build()
+step2 := batch.NewStep("step2").Handler(myHandler).Build()
 //or
-step1 := gobatch.NewStep("step1", myfunction).Build()
-step2 := gobatch.NewStep("step2", myHandler).Build()
+step1 := batch.NewStep("step1", myfunction).Build()
+step2 := batch.NewStep("step2", myHandler).Build()
 ```
 
 ### 编写分块步骤
@@ -169,7 +169,7 @@ type OpenCloser interface {
 	Close(execution *StepExecution) BatchError
 }
 ```
-示例代码可以参考 [test/example2](https://github.com/chararch/gobatch/blob/master/test/example2) 
+示例代码可以参考 [test/example2](https://github.com/supreness/batch/blob/master/test/example2) 
 
 ### 编写分区步骤
 
@@ -190,7 +190,7 @@ type Aggregator interface {
 对于分区步骤的子步骤来说，既可以是一个简单步骤（由Handler定义），也可以是一个分块步骤（通过Reader/Processor/Writer定义）。
 如果已有了一个包含ItemReader的分块步骤，则可以通过指定分区数量就可以构造分区步骤，如下：
 ```go
-    step := gobatch.NewStep("partition_step").Handler(&ChunkHandler{db}).Partitions(10).Build()
+    step := batch.NewStep("partition_step").Handler(&ChunkHandler{db}).Partitions(10).Build()
 ```
 这种方式是由GoBatch框架内部基于ItemReader实现了Partitioner。
 
@@ -226,25 +226,25 @@ type TradeWriter struct {
     db *gorm.DB
 }
 
-func (p *TradeWriter) Write(items []interface{}, chunkCtx *gobatch.ChunkContext) gobatch.BatchError {
+func (p *TradeWriter) Write(items []interface{}, chunkCtx *batch.ChunkContext) batch.BatchError {
     models := make([]*Trade, len(items))
     for i, item := range items {
         models[i] = item.(*Trade)
     }
     e := p.db.Table("t_trade").Create(models).Error
     if e != nil {
-        return gobatch.NewBatchError(gobatch.ErrCodeDbFail, "save trade into db err", e)
+        return batch.NewBatchError(batch.ErrCodeDbFail, "save trade into db err", e)
     }
     return nil
 }
 
 func buildAndRunJob() {
     //...
-    step := gobatch.NewStep("trade_import").ReadFile(tradeFile).Writer(&TradeWriter{db}).Partitions(10).Build()
+    step := batch.NewStep("trade_import").ReadFile(tradeFile).Writer(&TradeWriter{db}).Partitions(10).Build()
     //...
-    job := gobatch.NewJob("my_job").Step(...,step,...).Build()
-    gobatch.Register(job)
-    gobatch.Start(context.Background(), job.Name(), "{\"date\":\"20220202\"}")
+    job := batch.NewJob("my_job").Step(...,step,...).Build()
+    batch.Register(job)
+    batch.Start(context.Background(), job.Name(), "{\"date\":\"20220202\"}")
 }
 ```
 
@@ -302,7 +302,7 @@ func (h *TradeReader) ReadItem(key interface{}) (interface{}, error) {
 
 func buildAndRunJob() {
     //...
-    step := gobatch.NewStep("trade_export").Reader(&TradeReader{db}).WriteFile(tradeFileCsv).Partitions(10).Build()
+    step := batch.NewStep("trade_export").Reader(&TradeReader{db}).WriteFile(tradeFileCsv).Partitions(10).Build()
     //...
 }
 ```
@@ -338,9 +338,9 @@ type PartitionListener interface {
 ```go
 func buildAndRunJob() {
     //...
-    step := gobatch.NewStep("my_step").Handler(handler,...).Listener(listener,...).Build()
+    step := batch.NewStep("my_step").Handler(handler,...).Listener(listener,...).Build()
     //...
-    job := gobatch.NewJob("my_job").Step(step,...).Listener(listener,...).Build()
+    job := batch.NewJob("my_job").Step(step,...).Listener(listener,...).Build()
 }
 ```
 
@@ -349,7 +349,7 @@ func buildAndRunJob() {
 #### 指定DB实例
 GoBatch框架需要使用数据库来存储任务和步骤执行过程中的上下文信息，因此在启动任务之前，必须注册一个 *sql.DB 实例到GoBatch中，如下：
 ```go
-    gobatch.SetDB(sqlDb)
+    batch.SetDB(sqlDb)
 ```
 
 #### 指定事务管理器
@@ -363,12 +363,12 @@ type TransactionManager interface {
 ```
 GoBatch框架包含一个默认的事务管理器，类名DefaultTxManager，如果已经设置了DB实例且尚未设置TransactionManager，则 GoBatch 会自动创建一个 DefaultTxManager 实例。当然，用户也可以指定自己的事务管理器来代替默认实现：
 ```go
-  gobatch.SetTransactionManager(&CustomTransactionManager{})
+  batch.SetTransactionManager(&CustomTransactionManager{})
 ```
 
 #### 设置最大并发任务数和最大并发步骤数
 GoBatch 内部使用池化技术来运行任务和步骤。默认最大并发任务数和最大并发步骤数分别是10、1000，如果需要修改默认值，则设置如下：
 ```go
-    gobatch.SetMaxRunningJobs(100)
-    gobatch.SetMaxRunningSteps(5000)
+    batch.SetMaxRunningJobs(100)
+    batch.SetMaxRunningSteps(5000)
 ```

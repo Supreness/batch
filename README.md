@@ -1,7 +1,7 @@
 # GoBatch
 
-[![GoDoc Reference](https://godoc.org/github.com/chararch/gobatch?status.svg)](http://godoc.org/github.com/chararch/gobatch)
-[![Go Report Card](https://goreportcard.com/badge/github.com/chararch/gobatch)](https://goreportcard.com/report/github.com/chararch/gobatch)
+[![GoDoc Reference](https://godoc.org/github.com/supreness/batch?status.svg)](http://godoc.org/github.com/supreness/batch)
+[![Go Report Card](https://goreportcard.com/badge/github.com/supreness/batch)](https://goreportcard.com/report/github.com/supreness/batch)
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
 English|[中文](README_zh.md)
@@ -12,14 +12,14 @@ GoBatch is a batch processing framework in Go like Spring Batch in Java. If you 
 
 In GoBatch, Job is divided into multiple Steps, the steps are executed successively. GoBatch will create a JobExecution data stored into database when executing a Job, also will create a StepExecution when executing a Step.
 
-![](https://raw.githubusercontent.com/chararch/images/main/gobatch/gobatch.png)
+![](https://raw.githubusercontent.com/chararch/images/main/batch/batch.png)
 
 There are three types of step:
 - *Simple Step* execute business logic defined in Handler in a single thread.
 - *Chunk Step* process data by chunks. The process flow is reading a chunk of data, processing it, then writing output. The process is repeated until no more data to read.
 - *Partition Step* split task into multiple sub tasks, then execute sub tasks parallelly in sub steps, and aggregate result of sub steps at last.
 
-![](https://raw.githubusercontent.com/chararch/images/main/gobatch/step.png)
+![](https://raw.githubusercontent.com/chararch/images/main/batch/step.png)
 
 ## Features
 
@@ -33,14 +33,14 @@ There are three types of step:
 ## Install
 
 ```shell
-go get -u github.com/chararch/gobatch
+go get -u github.com/supreness/batch
 ```
 
 ## Use Step
 
-1. Create or choose a database, eg: gobatch
-1. Create tables from [sql/schema_mysql.sql](https://github.com/chararch/gobatch/blob/master/sql/schema_mysql.sql) into previous database
-1. Write gobatch code and run it
+1. Create or choose a database, eg: batch
+1. Create tables from [sql/schema_mysql.sql](https://github.com/supreness/batch/blob/master/sql/schema_mysql.sql) into previous database
+1. Write batch code and run it
 
 ## Code
 
@@ -48,7 +48,7 @@ go get -u github.com/chararch/gobatch
 
 ```go
 import (
-	"chararch/gobatch"
+	"chararch/batch"
 	"context"
 	"database/sql"
 	"fmt"
@@ -62,7 +62,7 @@ func mytask() {
 //reader
 type myReader struct {
 }
-func (r *myReader) Read(chunkCtx *gobatch.ChunkContext) (interface{}, gobatch.BatchError) {
+func (r *myReader) Read(chunkCtx *batch.ChunkContext) (interface{}, batch.BatchError) {
 	curr, _ := chunkCtx.StepExecution.StepContext.GetInt("read.num", 0)
 	if curr < 100 {
 		chunkCtx.StepExecution.StepContext.Put("read.num", curr+1)
@@ -74,43 +74,43 @@ func (r *myReader) Read(chunkCtx *gobatch.ChunkContext) (interface{}, gobatch.Ba
 //processor
 type myProcessor struct {
 }
-func (r *myProcessor) Process(item interface{}, chunkCtx *gobatch.ChunkContext) (interface{}, gobatch.BatchError) {
+func (r *myProcessor) Process(item interface{}, chunkCtx *batch.ChunkContext) (interface{}, batch.BatchError) {
 	return fmt.Sprintf("processed-%v", item), nil
 }
 
 //writer
 type myWriter struct {
 }
-func (r *myWriter) Write(items []interface{}, chunkCtx *gobatch.ChunkContext) gobatch.BatchError {
+func (r *myWriter) Write(items []interface{}, chunkCtx *batch.ChunkContext) batch.BatchError {
 	fmt.Printf("write: %v\n", items)
 	return nil
 }
 
 func main()  {
-	//set db for gobatch to store job&step execution context
-	db, err := sql.Open("mysql", "gobatch:gobatch123@tcp(127.0.0.1:3306)/gobatch?charset=utf8&parseTime=true")
+	//set db for batch to store job&step execution context
+	db, err := sql.Open("mysql", "batch:batch123@tcp(127.0.0.1:3306)/batch?charset=utf8&parseTime=true")
 	if err != nil {
 		panic(err)
 	}
-	gobatch.SetDB(db)
+	batch.SetDB(db)
 
 	//build steps
-	step1 := gobatch.NewStep("mytask").Handler(mytask).Build()
-	//step2 := gobatch.NewStep("my_step").Handler(&myReader{}, &myProcessor{}, &myWriter{}).Build()
-	step2 := gobatch.NewStep("my_step").Reader(&myReader{}).Processor(&myProcessor{}).Writer(&myWriter{}).ChunkSize(10).Build()
+	step1 := batch.NewStep("mytask").Handler(mytask).Build()
+	//step2 := batch.NewStep("my_step").Handler(&myReader{}, &myProcessor{}, &myWriter{}).Build()
+	step2 := batch.NewStep("my_step").Reader(&myReader{}).Processor(&myProcessor{}).Writer(&myWriter{}).ChunkSize(10).Build()
 
 	//build job
-	job := gobatch.NewJob("my_job").Step(step1, step2).Build()
+	job := batch.NewJob("my_job").Step(step1, step2).Build()
 
-	//register job to gobatch
-	gobatch.Register(job)
+	//register job to batch
+	batch.Register(job)
 
 	//run
-	//gobatch.StartAsync(context.Background(), job.Name(), "")
-	gobatch.Start(context.Background(), job.Name(), "")
+	//batch.StartAsync(context.Background(), job.Name(), "")
+	batch.Start(context.Background(), job.Name(), "")
 }
 ```
-You can look at the code in [test/example.go](https://github.com/chararch/gobatch/blob/master/test/example.go)
+You can look at the code in [test/example.go](https://github.com/supreness/batch/blob/master/test/example.go)
 
 ### Write a Simple step
 
@@ -129,11 +129,11 @@ type Handler interface {
 ```
 Once you wrote the function or Handler interface implementation, you can build step like this:
 ```go
-step1 := gobatch.NewStep("step1").Handler(myfunction).Build()
-step2 := gobatch.NewStep("step2").Handler(myHandler).Build()
+step1 := batch.NewStep("step1").Handler(myfunction).Build()
+step2 := batch.NewStep("step2").Handler(myHandler).Build()
 //or
-step1 := gobatch.NewStep("step1", myfunction).Build()
-step2 := gobatch.NewStep("step2", myHandler).Build()
+step1 := batch.NewStep("step1", myfunction).Build()
+step2 := batch.NewStep("step2", myHandler).Build()
 ```
 
 ### Write a Chunk step
@@ -169,7 +169,7 @@ type OpenCloser interface {
 	Close(execution *StepExecution) BatchError
 }
 ```
-You could see the chunk step example under [test/example2](https://github.com/chararch/gobatch/blob/master/test/example2)
+You could see the chunk step example under [test/example2](https://github.com/supreness/batch/blob/master/test/example2)
 
 ### Write a Partition step
 
@@ -189,7 +189,7 @@ type Aggregator interface {
 ```
 If you already have a chunk step with an ItemReader, you can easily build a partition step nothing more than specifying partitions count:
 ```go
-    step := gobatch.NewStep("partition_step").Handler(&ChunkHandler{db}).Partitions(10).Build()
+    step := batch.NewStep("partition_step").Handler(&ChunkHandler{db}).Partitions(10).Build()
 ```
 
 ### Read & Write File
@@ -224,25 +224,25 @@ type TradeWriter struct {
     db *gorm.DB
 }
 
-func (p *TradeWriter) Write(items []interface{}, chunkCtx *gobatch.ChunkContext) gobatch.BatchError {
+func (p *TradeWriter) Write(items []interface{}, chunkCtx *batch.ChunkContext) batch.BatchError {
     models := make([]*Trade, len(items))
     for i, item := range items {
         models[i] = item.(*Trade)
     }
     e := p.db.Table("t_trade").Create(models).Error
     if e != nil {
-        return gobatch.NewBatchError(gobatch.ErrCodeDbFail, "save trade into db err", e)
+        return batch.NewBatchError(batch.ErrCodeDbFail, "save trade into db err", e)
     }
     return nil
 }
 
 func buildAndRunJob() {
     //...
-    step := gobatch.NewStep("trade_import").ReadFile(tradeFile).Writer(&TradeWriter{db}).Partitions(10).Build()
+    step := batch.NewStep("trade_import").ReadFile(tradeFile).Writer(&TradeWriter{db}).Partitions(10).Build()
     //...
-    job := gobatch.NewJob("my_job").Step(...,step,...).Build()
-    gobatch.Register(job)
-    gobatch.Start(context.Background(), job.Name(), "{\"date\":\"20220202\"}")
+    job := batch.NewJob("my_job").Step(...,step,...).Build()
+    batch.Register(job)
+    batch.Start(context.Background(), job.Name(), "{\"date\":\"20220202\"}")
 }
 ```
 
@@ -300,7 +300,7 @@ func (h *TradeReader) ReadItem(key interface{}) (interface{}, error) {
 
 func buildAndRunJob() {
     //...
-    step := gobatch.NewStep("trade_export").Reader(&TradeReader{db}).WriteFile(tradeFileCsv).Partitions(10).Build()
+    step := batch.NewStep("trade_export").Reader(&TradeReader{db}).WriteFile(tradeFileCsv).Partitions(10).Build()
     //...
 }
 ```
@@ -336,9 +336,9 @@ You can specify listeners during building job:
 ```go
 func buildAndRunJob() {
     //...
-    step := gobatch.NewStep("my_step").Handler(handler,...).Listener(listener,...).Build()
+    step := batch.NewStep("my_step").Handler(handler,...).Listener(listener,...).Build()
     //...
-    job := gobatch.NewJob("my_job").Step(step,...).Listener(listener,...).Build()
+    job := batch.NewJob("my_job").Step(step,...).Listener(listener,...).Build()
 }
 ```
 
@@ -347,7 +347,7 @@ func buildAndRunJob() {
 #### SetDB
 GoBatch needs a database to store job and step execution contexts, so you must pass a *sql.DB instance to GoBatch before running job.
 ```go
-    gobatch.SetDB(sqlDb)
+    batch.SetDB(sqlDb)
 ```
 
 #### SetTransactionManager
@@ -364,6 +364,6 @@ GoBatch has a DefaultTxManager, if you have set DB and have no TransactionManage
 #### SetMaxRunningJobs & SetMaxRunningSteps
 GoBatch has internal TaskPools to run jobs and steps, the max running jobs and steps are limited by the pool size. The default value of the max running jobs and steps are 10, 1000. You can change the default settings by:
 ```go
-    gobatch.SetMaxRunningJobs(100)
-    gobatch.SetMaxRunningSteps(5000)
+    batch.SetMaxRunningJobs(100)
+    batch.SetMaxRunningSteps(5000)
 ```

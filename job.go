@@ -2,13 +2,13 @@ package batch
 
 import (
 	"context"
-	"github.com/chararch/gobatch/status"
+	"github.com/supreness/batch/status"
 	"reflect"
 	"runtime/debug"
 	"time"
 )
 
-//Job job interface used by GoBatch
+//Job interface used by GoBatch
 type Job interface {
 	Name() string
 	Start(ctx context.Context, execution *JobExecution) BatchError

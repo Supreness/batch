@@ -9,11 +9,11 @@ import (
 
 const (
 	//ItemReaderKeyList the key of keyList in StepContext
-	ItemReaderKeyList = "gobatch.ItemReader.key.list"
+	ItemReaderKeyList = "batch.ItemReader.key.list"
 	//ItemReaderCurrentIndex the key of current offset of step's keyList in StepContext
-	ItemReaderCurrentIndex = "gobatch.ItemReader.current.index"
+	ItemReaderCurrentIndex = "batch.ItemReader.current.index"
 	//ItemReaderMaxIndex the key of max index of step's keyList in StepContext
-	ItemReaderMaxIndex = "gobatch.ItemReader.max.index"
+	ItemReaderMaxIndex = "batch.ItemReader.max.index"
 )
 
 // ItemReader is for loading large amount of data from a datasource like database, used in a chunk step.

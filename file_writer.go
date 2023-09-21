@@ -2,13 +2,13 @@ package batch
 
 import (
 	"fmt"
-	"github.com/chararch/gobatch/file"
+	"github.com/supreness/batch/file"
 	"strings"
 )
 
 const (
-	fileItemWriterHandleKey   = "gobatch.FileItemWriter.handle"
-	fileItemWriterFileNameKey = "gobatch.FileItemWriter.fileName"
+	fileItemWriterHandleKey   = "batch.FileItemWriter.handle"
+	fileItemWriterFileNameKey = "batch.FileItemWriter.fileName"
 )
 
 type fileWriter struct {

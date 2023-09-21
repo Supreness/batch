@@ -2,7 +2,7 @@ package batch
 
 import (
 	"database/sql"
-	"github.com/chararch/gobatch/internal/logs"
+	"github.com/supreness/batch/internal/logs"
 	"os"
 )
 

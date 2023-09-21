@@ -2,7 +2,7 @@ package file
 
 import (
 	"github.com/bmizerany/assert"
-	"github.com/chararch/gobatch/util"
+	"github.com/supreness/batch/util"
 	"log"
 	"reflect"
 	"testing"

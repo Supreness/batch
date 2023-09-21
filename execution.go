@@ -1,7 +1,7 @@
 package batch
 
 import (
-	"github.com/chararch/gobatch/status"
+	"github.com/supreness/batch/status"
 	"time"
 )
 

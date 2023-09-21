@@ -3,15 +3,15 @@ package batch
 import (
 	"context"
 	"fmt"
-	"github.com/supreness/gobatch/file"
+	"github.com/supreness/batch/file"
 )
 
 const (
-	fileItemReaderHandleKey    = "gobatch.FileItemReader.handle"
-	fileItemReaderFileNameKey  = "gobatch.FileItemWriter.fileName"
-	fileItemReaderCurrentIndex = "gobatch.FileItemReader.current.index"
-	fileItemReaderStart        = "gobatch.FileItemReader.start"
-	fileItemReaderEnd          = "gobatch.FileItemReader.end"
+	fileItemReaderHandleKey    = "batch.FileItemReader.handle"
+	fileItemReaderFileNameKey  = "batch.FileItemWriter.fileName"
+	fileItemReaderCurrentIndex = "batch.FileItemReader.current.index"
+	fileItemReaderStart        = "batch.FileItemReader.start"
+	fileItemReaderEnd          = "batch.FileItemReader.end"
 )
 
 type fileReader struct {

@@ -2,8 +2,8 @@ package example2
 
 import (
 	"database/sql"
-	"github.com/chararch/gobatch"
-	"github.com/chararch/gobatch/file"
+	"github.com/supreness/batch"
+	"github.com/supreness/batch/file"
 	"time"
 )
 
@@ -28,8 +28,8 @@ var tradeFileExport = file.FileObjectModel{
 var ftp = &file.FTPFileSystem{
 	Hort:        "localhost",
 	Port:        21,
-	User:        "gobatch",
-	Password:    "gobatch123",
+	User:        "batch",
+	Password:    "batch123",
 	ConnTimeout: time.Second,
 }
 
@@ -50,13 +50,13 @@ type tradeImporter struct {
 	db *sql.DB
 }
 
-func (p *tradeImporter) Write(items []interface{}, chunkCtx *gobatch.ChunkContext) gobatch.BatchError {
+func (p *tradeImporter) Write(items []interface{}, chunkCtx *batch.ChunkContext) batch.BatchError {
 	for _, item := range items {
 		trade := item.(*Trade)
 		_, err := p.db.Exec("INSERT INTO t_trade(trade_no, account_no, type, amount, terms, interest_rate, trade_time, status) values (?,?,?,?,?,?,?,?)",
 			trade.TradeNo, trade.AccountNo, trade.Type, trade.Amount, trade.Terms, trade.InterestRate, trade.TradeTime, trade.Status)
 		if err != nil {
-			return gobatch.NewBatchError(gobatch.ErrCodeDbFail, "insert trade into db err", err)
+			return batch.NewBatchError(batch.ErrCodeDbFail, "insert trade into db err", err)
 		}
 	}
 	return nil

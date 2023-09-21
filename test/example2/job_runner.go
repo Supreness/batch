@@ -3,9 +3,9 @@ package example2
 import (
 	"context"
 	"database/sql"
-	"github.com/chararch/gobatch"
-	"github.com/chararch/gobatch/util"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/supreness/batch"
+	"github.com/supreness/batch/util"
 	"log"
 	"time"
 )
@@ -34,22 +34,22 @@ func removeJobData() {
 
 func buildAndRunJob() {
 	sqlDb := openDB()
-	gobatch.SetDB(sqlDb)
-	gobatch.SetTransactionManager(gobatch.NewTransactionManager(sqlDb))
+	batch.SetDB(sqlDb)
+	batch.SetTransactionManager(batch.NewTransactionManager(sqlDb))
 
-	step1 := gobatch.NewStep("import_trade").ReadFile(tradeFile).Writer(&tradeImporter{sqlDb}).Partitions(10).Build()
-	step2 := gobatch.NewStep("gen_repay_plan").Reader(&tradeReader{sqlDb}).Handler(&repayPlanHandler{sqlDb}).Partitions(10).Build()
-	step3 := gobatch.NewStep("stats").Handler(&statsHandler{sqlDb}).Build()
-	step4 := gobatch.NewStep("export_trade").Reader(&tradeReader{sqlDb}).WriteFile(tradeFileExport).Partitions(10).Build()
-	step5 := gobatch.NewStep("upload_file_to_ftp").CopyFile(copyFileToFtp, copyChecksumFileToFtp).Build()
-	job := gobatch.NewJob("accounting_job").Step(step1, step2, step3, step4, step5).Build()
+	step1 := batch.NewStep("import_trade").ReadFile(tradeFile).Writer(&tradeImporter{sqlDb}).Partitions(10).Build()
+	step2 := batch.NewStep("gen_repay_plan").Reader(&tradeReader{sqlDb}).Handler(&repayPlanHandler{sqlDb}).Partitions(10).Build()
+	step3 := batch.NewStep("stats").Handler(&statsHandler{sqlDb}).Build()
+	step4 := batch.NewStep("export_trade").Reader(&tradeReader{sqlDb}).WriteFile(tradeFileExport).Partitions(10).Build()
+	step5 := batch.NewStep("upload_file_to_ftp").CopyFile(copyFileToFtp, copyChecksumFileToFtp).Build()
+	job := batch.NewJob("accounting_job").Step(step1, step2, step3, step4, step5).Build()
 
-	gobatch.Register(job)
+	batch.Register(job)
 
 	params, _ := util.JsonString(map[string]interface{}{
 		"date": time.Now().Format("2006-01-02"),
 		"rand": time.Now().Nanosecond(),
 	})
-	gobatch.Start(context.Background(), job.Name(), params)
+	batch.Start(context.Background(), job.Name(), params)
 
 }

@@ -5,31 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56c47c78-913f-4e87-ad27-cc31e05f84e4" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/context.go" beforeDir="false" afterPath="$PROJECT_DIR$/context.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README_zh.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_zh.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/context_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/context_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/errors.go" beforeDir="false" afterPath="$PROJECT_DIR$/errors.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/errors_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/errors_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/execution.go" beforeDir="false" afterPath="$PROJECT_DIR$/execution.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file/xsv_marshal_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/file/xsv_marshal_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_copy.go" beforeDir="false" afterPath="$PROJECT_DIR$/file_copy.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_path.go" beforeDir="false" afterPath="$PROJECT_DIR$/file_path.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/file_reader.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_writer.go" beforeDir="false" afterPath="$PROJECT_DIR$/file_writer.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/global.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/item_reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/item_reader.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job.go" beforeDir="false" afterPath="$PROJECT_DIR$/job.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_builder.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_builder.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job_operator.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_operator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/listener.go" beforeDir="false" afterPath="$PROJECT_DIR$/listener.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/schema_mysql.sql" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/step.go" beforeDir="false" afterPath="$PROJECT_DIR$/step.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/step_builder.go" beforeDir="false" afterPath="$PROJECT_DIR$/step_builder.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/step_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/step_handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskpool.go" beforeDir="false" afterPath="$PROJECT_DIR$/taskpool.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskpool_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/taskpool_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transaction.go" beforeDir="false" afterPath="$PROJECT_DIR$/transaction.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/example.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/example.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/example2/file_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/example2/file_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/example2/job_runner.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/example2/job_runner.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/example2/repay_plan_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/example2/repay_plan_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/example2/stats_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/example2/stats_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/example2/trade_reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/example2/trade_reader.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

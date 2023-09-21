@@ -3,17 +3,17 @@ package example2
 import (
 	"database/sql"
 	"fmt"
-	"github.com/chararch/gobatch"
+	"github.com/supreness/batch"
 )
 
 type tradeReader struct {
 	db *sql.DB
 }
 
-func (h *tradeReader) Open(execution *gobatch.StepExecution) gobatch.BatchError {
+func (h *tradeReader) Open(execution *batch.StepExecution) batch.BatchError {
 	return nil
 }
-func (h *tradeReader) Close(execution *gobatch.StepExecution) gobatch.BatchError {
+func (h *tradeReader) Close(execution *batch.StepExecution) batch.BatchError {
 	return nil
 }
 func (h *tradeReader) ReadKeys() ([]interface{}, error) {

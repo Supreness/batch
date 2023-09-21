@@ -2,7 +2,7 @@ package example2
 
 import (
 	"database/sql"
-	"github.com/chararch/gobatch"
+	"github.com/supreness/batch"
 	"time"
 )
 
@@ -11,7 +11,7 @@ type repayPlanHandler struct {
 	db *sql.DB
 }
 
-func (h *repayPlanHandler) Process(item interface{}, chunkCtx *gobatch.ChunkContext) (interface{}, gobatch.BatchError) {
+func (h *repayPlanHandler) Process(item interface{}, chunkCtx *batch.ChunkContext) (interface{}, batch.BatchError) {
 	trade := item.(*Trade)
 	plans := make([]*RepayPlan, 0)
 	restPrincipal := trade.Amount
@@ -36,14 +36,14 @@ func (h *repayPlanHandler) Process(item interface{}, chunkCtx *gobatch.ChunkCont
 	return plans, nil
 }
 
-func (h *repayPlanHandler) Write(items []interface{}, chunkCtx *gobatch.ChunkContext) gobatch.BatchError {
+func (h *repayPlanHandler) Write(items []interface{}, chunkCtx *batch.ChunkContext) batch.BatchError {
 	for _, item := range items {
 		plans := item.([]*RepayPlan)
 		for _, plan := range plans {
 			_, err := h.db.Exec("INSERT INTO t_repay_plan(account_no, loan_no, term, principal, interest, init_date, repay_date, repay_state) values (?,?,?,?,?,?,?,?)",
 				plan.AccountNo, plan.LoanNo, plan.Term, plan.Principal, plan.Interest, plan.InitDate, plan.RepayDate, plan.RepayState)
 			if err != nil {
-				return gobatch.NewBatchError(gobatch.ErrCodeDbFail, "insert t_repay_plan failed", err)
+				return batch.NewBatchError(batch.ErrCodeDbFail, "insert t_repay_plan failed", err)
 			}
 		}
 	}

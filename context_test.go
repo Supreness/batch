@@ -3,7 +3,7 @@ package batch
 import (
 	"fmt"
 	"github.com/bmizerany/assert"
-	"github.com/chararch/gobatch/util"
+	"github.com/supreness/batch/util"
 	"testing"
 )
 

@@ -2,7 +2,7 @@ package batch
 
 import (
 	"fmt"
-	"github.com/chararch/gobatch/file"
+	"github.com/supreness/batch/file"
 )
 
 const (
@@ -278,7 +278,7 @@ func (builder *stepBuilder) Build() Step {
 		step = newSimpleStep(builder.name, builder.task, builder.stepListeners)
 	} else if builder.reader != nil {
 		if txManager == nil {
-			panic(fmt.Sprintf("you must specify a transaction manager with gobatch.SetTransactionManager() before constructing chunk step:%v", builder.name))
+			panic(fmt.Sprintf("you must specify a transaction manager with batch.SetTransactionManager() before constructing chunk step:%v", builder.name))
 		}
 		reader := builder.reader
 		writer := builder.writer

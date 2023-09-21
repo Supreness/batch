@@ -3,8 +3,8 @@ package batch
 import (
 	"context"
 	"fmt"
-	"github.com/chararch/gobatch/status"
-	"github.com/chararch/gobatch/util"
+	"github.com/supreness/batch/status"
+	"github.com/supreness/batch/util"
 	"reflect"
 	"runtime/debug"
 	"time"
@@ -554,7 +554,7 @@ func (step *partitionStep) Exec(ctx context.Context, execution *StepExecution) (
 	return nil
 }
 
-const partitionStepPartitionsKey = "gobatch.partitionStep.partitions"
+const partitionStepPartitionsKey = "batch.partitionStep.partitions"
 
 func (step *partitionStep) split(ctx context.Context, execution *StepExecution, partitions uint) ([]*StepExecution, BatchError) {
 	if execution.StepExecutionContext.Exists(partitionStepPartitionsKey) {

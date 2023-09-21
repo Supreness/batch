@@ -2,7 +2,7 @@ package batch
 
 import (
 	"context"
-	"github.com/chararch/gobatch/file"
+	"github.com/supreness/batch/file"
 	"io"
 )
 
